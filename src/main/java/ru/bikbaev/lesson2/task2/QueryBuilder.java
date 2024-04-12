@@ -48,13 +48,12 @@ public class QueryBuilder {
 
             return query.toString();
 
-        }
-        else{
+        } else {
             return "";
         }
     }
 
-    public String buildSelectQuery(Class<?> clazz, UUID primaryKey){
+    public String buildSelectQuery(Class<?> clazz, UUID primaryKey) {
         if (clazz.isAnnotationPresent(Table.class)) {
             // select * from table_name where iddddd = 'primaryKey'
             Table tableAnnotation = clazz.getAnnotation(Table.class);
@@ -75,8 +74,7 @@ public class QueryBuilder {
 
             return query.toString();
 
-        }
-        else {
+        } else {
             return "";
         }
     }
@@ -96,7 +94,7 @@ public class QueryBuilder {
                 if (field.isAnnotationPresent(Column.class)) {
                     field.setAccessible(true);
                     Column columnAnnotation = field.getAnnotation(Column.class);
-                    if (columnAnnotation.primaryKey()){
+                    if (columnAnnotation.primaryKey()) {
                         continue;
                     }
                     query.append(columnAnnotation.name()).append(" = '").append(field.get(obj)).append("', ");
@@ -120,8 +118,7 @@ public class QueryBuilder {
 
             return query.toString();
 
-        }
-        else {
+        } else {
             return "";
         }
 
@@ -129,13 +126,36 @@ public class QueryBuilder {
 
     /**
      * TODO: Доработать метод в рамках домашней работы
+     *
      * @return
      */
-    public String buildDeleteQuery(){
+    public String buildDeleteQuery(Object obj) throws IllegalAccessException {
+
+        //DELETE FROM table_name WHERE id=id;
+
+        Class<?> clazz = obj.getClass();
+
+        if (clazz.isAnnotationPresent(Table.class)) {
+            StringBuilder stringBuilder = new StringBuilder("DELETE FROM ");
+            Table tableAnnotation = clazz.getAnnotation(Table.class);
+            stringBuilder.append(tableAnnotation.name()).append(" WHERE");
+
+            Field[] fields = clazz.getDeclaredFields();
+
+            for (Field field : fields) {
+                if (field.isAnnotationPresent(Column.class)) {
+                    Column columnAnnotation = field.getAnnotation(Column.class);
+                    field.setAccessible(true);
+                    if (columnAnnotation.primaryKey()) {
+                        stringBuilder.append(columnAnnotation.name()).append(" = '").append(field.get(obj)).append("'");
+                        break;
+                    }
+                }
+
+            }
+            return stringBuilder.toString();
+
+        }
         return "";
     }
-
-
-
-
 }
