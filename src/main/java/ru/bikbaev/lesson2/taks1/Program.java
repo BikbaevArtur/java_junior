@@ -21,34 +21,34 @@ public class Program {
 
     public static void main(String[] args) throws ClassNotFoundException, InvocationTargetException, InstantiationException, IllegalAccessException, NoSuchFieldException, NoSuchMethodException {
 
-        Class<?> personClass = Person.class;
-        Class<?> personClass2 = Class.forName("ru.geekbrains.junior.lesson2.taks1.Person");
-        //Person person1 = new Person();
-        //Class<?> personClass3 = person1.getClass();
+      //  Class<?> personClass = Person.class;
+        //Class<?> personClass2 = Class.forName("ru.geekbrains.junior.lesson2.taks1.Person");
+        Person person1 = new Person();
+        Class<?> personClass3 = person1.getClass();
 
         // Получить список всех полей
-        Field[] fields = personClass.getDeclaredFields();
+        Field[] fields = personClass3.getDeclaredFields();
         for (Field field : fields){
             System.out.println("Поле: " + field.getName());
         }
 
-        // Получить список всех конструкторов
-        Constructor[] constructors
-                = personClass.getConstructors();
-
-        Object personInstance = constructors[0].newInstance(null);
-
-        //Устанавливаем значения полей
-        Field nameField = personClass.getDeclaredField("name");
-        nameField.set(personInstance, "Alice");
-
-        Field ageField = personClass.getDeclaredField("age");
-        ageField.setAccessible(true); // Разрешаем доступ к закрытому полю
-        ageField.set(personInstance, 30);
-
-        // Вызов метода
-        Method displayInfoMethod = personClass.getDeclaredMethod("displayInfo");
-        displayInfoMethod.invoke(personInstance);
+//        // Получить список всех конструкторов
+//        Constructor[] constructors
+//                = personClass3.getConstructors();
+//
+//        Object personInstance = constructors[0].newInstance(null);
+//
+//        //Устанавливаем значения полей
+//        Field nameField = personClass3.getDeclaredField("name");
+//        nameField.set(personInstance, "Alice");
+//
+//        Field ageField = personClass3.getDeclaredField("age");
+//        ageField.setAccessible(true); // Разрешаем доступ к закрытому полю
+//        ageField.set(personInstance, 30);
+//
+//        // Вызов метода
+//        Method displayInfoMethod = personClass3.getDeclaredMethod("displayInfo");
+//        displayInfoMethod.invoke(personInstance);
     }
 
 }
